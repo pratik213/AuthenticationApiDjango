@@ -62,3 +62,11 @@ class RegisterUser(AbstractBaseUser,PermissionsMixin):
 
     def __str__(self):
         return self.user_name or self.company_name
+
+class UserProfile(models.Model):
+    user=models.OneToOneField(RegisterUser, on_delete=models.CASCADE)
+    bio=models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.user.user_name
+    

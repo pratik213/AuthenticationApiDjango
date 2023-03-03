@@ -107,7 +107,7 @@ class UserProfileView(APIView):
         if serializer.is_valid():
             serializer.save()
             # import pdb;pdb.set_trace()
-            return Response(serializer.data)
+            return Response(serializer.dataaaaa)
         return Response(serializer.errors)
     
 
