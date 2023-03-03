@@ -87,6 +87,7 @@ class SellerLoginView(APIView):
 
 
 
+
 class UserProfileView(APIView):
     permission_classes=[IsAuthenticated]
     
@@ -94,6 +95,21 @@ class UserProfileView(APIView):
         serializer=UserProfileSerializer(request.user)
         # import pdb;pdb.set_trace()
         return Response(serializer.data)
+    
+    def put(self,request,format=None):
+        user=request.user
+        data=request.data.copy()
+        data["user"]=user
+            
+        serializer=UserProfileSerializer(request.user,data=data,partial=True)
+        header=request.headers
+        # import pdb;pdb.set_trace()
+        if serializer.is_valid():
+            serializer.save()
+            # import pdb;pdb.set_trace()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
 
 
 
