@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import RegisterUser
+from . models import RegisterUser,UserProfile
 from django.db.models import Q
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -74,6 +74,7 @@ class CustomerLoginSerializer(serializers.ModelSerializer):
 class SellerLoginSerializer(serializers.ModelSerializer):
     email_or_phone_number=serializers.CharField(max_length=255,required=True)
     password = serializers.CharField(max_length=128, write_only=True)
+    # import pdb;pdb.set_trace()
     class Meta:
         model=RegisterUser
         fields=['email_or_phone_number','password']
@@ -99,5 +100,6 @@ class SellerLoginSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model=RegisterUser
-        fields=['id','email','user_name','phone_number']
+        model=UserProfile
+        fields=['id','user','bio']
+        # depth=1

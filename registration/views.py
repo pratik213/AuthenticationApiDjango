@@ -35,8 +35,10 @@ class CustomerRegisterView(APIView):
 class SellerRegisterView(APIView):
     def post(self,request,format=None):
         serializer=SellerSerializer(data=request.data)
+        # import pdb;pdb.set_trace()
         if serializer.is_valid(raise_exception=True):
             user=serializer.save()
+            # import pdb;pdb.set_trace()
             token=get_tokens_for_user(user)
             return Response({'token':token,'msg':'Registration Sucess'})
         return Response(serializer.errors)
@@ -91,7 +93,9 @@ class UserProfileView(APIView):
     permission_classes=[IsAuthenticated]
     
     def get(self,request,format=None):
-        serializer=UserProfileSerializer(request.user)
+        user=self.request.user
+        
+        serializer=UserProfileSerializer(user.profile_user)
         # import pdb;pdb.set_trace()
         return Response(serializer.data)
 
@@ -103,7 +107,7 @@ class UserProfileView(APIView):
 
 
 
-#thid function is used so that if the user enters phone number ,the associated email of that phone number will be taken
+#this function is used so that if the user enters phone number ,the associated email of that phone number will be taken
 # and if user enters email than the email will be taken for authentication
 
 

@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin,BaseUse
 
 # Base Manager is here
 class CustomAccountManager(BaseUserManager):
-    def create_superuser(self,email,user_name,password,**other_fields):
+    def create_superuser(self,email,password,**other_fields):
         
         other_fields.setdefault('is_staff',True)
         other_fields.setdefault('is_superuser',True)
@@ -18,13 +18,14 @@ class CustomAccountManager(BaseUserManager):
             raise ValueError(gettext_lazy("Super user must be assigned to is_super = True"))
         
 
-        return self.create_user(email=email,user_name=user_name,password=password,**other_fields)
+        return self.create_user(email=email,password=password,**other_fields)
 
 
 
 
-    def create_user(self,email,user_name,*args,password,**kwargs):
-        
+    # def create_user(self,email,user_name,*args,password,**kwargs):
+    def create_user(self,email,*args,password,**kwargs):
+        # import pdb;pdb.set_trace()
         if not email:
             raise ValueError(gettext_lazy("You must enter email id"))
 
@@ -37,9 +38,10 @@ class CustomAccountManager(BaseUserManager):
 
         email=self.normalize_email(email)
         user_name=user_name or company_name
-        user=self.model(email=email,user_name=user_name,**kwargs)
+        user=self.model(email=email,**kwargs)
         user.set_password(password)
         user.save()
+        
         return user
 
 
@@ -67,7 +69,7 @@ class RegisterUser(AbstractBaseUser,PermissionsMixin):
         return self.user_name or self.company_name
 
 class UserProfile(models.Model):
-    user=models.OneToOneField(RegisterUser, on_delete=models.CASCADE)
+    user=models.OneToOneField(RegisterUser, on_delete=models.CASCADE,related_name="profile_user")
     bio=models.TextField(max_length=500)
 
     def __str__(self):
