@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin,BaseUse
 # Base Manager is here
 class CustomAccountManager(BaseUserManager):
     def create_superuser(self,email,user_name,password,**other_fields):
+        
         other_fields.setdefault('is_staff',True)
         other_fields.setdefault('is_superuser',True)
         other_fields.setdefault('is_active',True)
@@ -15,13 +16,15 @@ class CustomAccountManager(BaseUserManager):
 
         if other_fields.get('is_superuser') is not True:
             raise ValueError(gettext_lazy("Super user must be assigned to is_super = True"))
+        
 
-        return self.create_user(email,user_name,password,**other_fields)
+        return self.create_user(email=email,user_name=user_name,password=password,**other_fields)
 
 
 
 
-    def create_user(self,email,*args,password,**kwargs):
+    def create_user(self,email,user_name,*args,password,**kwargs):
+        
         if not email:
             raise ValueError(gettext_lazy("You must enter email id"))
 
@@ -62,3 +65,10 @@ class RegisterUser(AbstractBaseUser,PermissionsMixin):
 
     def __str__(self):
         return self.user_name or self.company_name
+
+class UserProfile(models.Model):
+    user=models.OneToOneField(RegisterUser, on_delete=models.CASCADE)
+    bio=models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.user.user_name
