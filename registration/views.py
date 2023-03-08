@@ -113,6 +113,17 @@ class UserProfileView(APIView):
             # import pdb;pdb.set_trace()
             return Response(serializer.dataaaaa)
         return Response(serializer.errors)
+
+    def post(self,request,format=None):
+        data=request.data.copy()
+        data["user"]=request.user.id
+        serializer=UserProfileSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
     
 
 
