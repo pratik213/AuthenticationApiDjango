@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'task1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangoauthentication',
+        'NAME': 'DjangoAuthentication',
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'USER': 'root',
+        'USER': 'AUTHENTICATIONAPI',
         'PASSWORD': config("DB_PASSWORD"),
     }
 }
