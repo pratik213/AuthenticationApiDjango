@@ -95,6 +95,7 @@ class UserProfileView(APIView):
     
     def get(self,request,format=None):
         user=self.request.user
+        # import pdb;pdb.set_trace()
         
         serializer=UserProfileSerializer(user.profile_user)
         # import pdb;pdb.set_trace()

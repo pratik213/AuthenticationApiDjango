@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'registration',
     'rest_framework',
     'rest_framework_simplejwt',
+    'store',
 
 ]
 
@@ -141,6 +142,6 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=200),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
