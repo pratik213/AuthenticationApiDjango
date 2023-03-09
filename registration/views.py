@@ -104,23 +104,33 @@ class UserProfileView(APIView):
     def put(self,request,format=None):
         user=request.user
         data=request.data.copy()
+        
         data["user"]=user
+        # import pdb;pdb.set_trace()
             
-        serializer=UserProfileSerializer(request.user,data=data,partial=True)
+        serializer=UserProfileSerializer(request.user.profile_user,data=data,partial=True)
         header=request.headers
         # import pdb;pdb.set_trace()
         if serializer.is_valid():
             serializer.save()
             # import pdb;pdb.set_trace()
-            return Response(serializer.dataaaaa)
+            return Response(serializer.data)
         return Response(serializer.errors)
 
     def post(self,request,format=None):
+        user=request.user
+        
         data=request.data.copy()
-        data["user"]=request.user.id
-        serializer=UserProfileSerializer(data=data)
+        # import pdb;pdb.set_trace()
+
+        data["user"]=user
+        # import pdb;pdb.set_trace()
+        
+        serializer=UserProfileSerializer(request.user,data=data)
+        # import pdb;pdb.set_trace()
         if serializer.is_valid():
             serializer.save()
+            # import pdb;pdb.set_trace()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
