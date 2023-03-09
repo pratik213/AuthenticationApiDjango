@@ -28,7 +28,7 @@ class SellerSerializer(serializers.ModelSerializer):
     password2=serializers.CharField(style={'input_type':'password'},write_only=True)
     class Meta:
         model=RegisterUser
-        fields=['email','company_name','phone_number','password','password2','user_type']
+        fields=['email','user_name','company_name','phone_number','password','password2','user_type']
         extra_kwargs={
             'password':{'write_only':True}
         }
@@ -101,5 +101,6 @@ class SellerLoginSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model=UserProfile
-        fields=['id','user','bio']
+        # fields=['id','user','bio']
+        fields=['id','bio']
         # depth=1
