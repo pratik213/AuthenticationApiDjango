@@ -10,21 +10,23 @@ class Product(APIView):
     
     def get(self,request,format=None):
         user=self.request.user
-        product=user.p_user.get()
-        serializer=ProductSerializer(product)
+        product=user.p_user.all()
+        serializer=ProductSerializer(product,many=True)
         # import pdb;pdb.set_trace()
         return Response(serializer.data)
     
-    def put(self,request,format=None):
+    def put(self,request,id,format=None):
         user=request.user
         
         data=request.data.copy()
         
         data["user"]=user
+        # import pdb;pdb.set_trace()
             
-        serializer=ProductSerializer(request.user.p_user.get(),data=data,partial=True)
+        serializer=ProductSerializer(request.user.p_user.get(id=id),data=data,partial=True)
+        # import pdb;pdb.set_trace()
         
-        header=request.headers
+        # header=request.headers
         # import pdb;pdb.set_trace()
         if serializer.is_valid():
             serializer.save()
@@ -35,9 +37,13 @@ class Product(APIView):
     def post(self,request,format=None):
         user=request.user
         data=request.data.copy()
+        # data=request.data
+        # import pdb;pdb.set_trace()
         #my product_user currently logged in value will be automatically assigned to the data
         data["product_user"]=user.pk
-        serializer=ProductSerializer(request.user.p_user.first(),data=data)
+        serializer=ProductSerializer(data=data)
+        # import pdb;pdb.set_trace()
+
         
         if serializer.is_valid():
             # import pdb;pdb.set_trace()
